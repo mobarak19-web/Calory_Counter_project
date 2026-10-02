@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="container mt-4">
+            <h2>Calorie Calculation</h2>
+        
+            <p><strong>Name: </strong>{{ profile.name }}</p>
+            <p><strong>Age: </strong>{{ profile.age }} years</p>
+            <p><strong>Gender: </strong>{{ profile.gender }}</p>
+            <p><strong>Height: </strong>{{ profile.height }} cm</p>
+            <p><strong>Weight: </strong>{{ profile.weight }} kg</p>
+<hr>
+            <h2>Required Calories: {{ required_calories }} kcal/day</h2>
+
+            <p>
+                This value is calculated using the BMR formula
+                specified in the project requirements.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

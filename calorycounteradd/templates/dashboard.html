@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="dashboard-container">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>Welcome, {{ request.user.username }}! 👋</h1>
+        {% if profile %}
+            <p>Hello {{ profile.name }}, here's your daily calorie summary.</p>
+        {% else %}
+            <p>Welcome to your Calorie Counter Dashboard.</p>
+        {% endif %}
+    </div>
+
+    {% if profile %}
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+
+        <div class="card">
+            <h3>🔥 Required Calories</h3>
+            <div class="value">{{ required_calories }}</div>
+            <div class="unit">kcal / day</div>
+        </div>
+
+        <div class="card">
+            <h3>🍎 Consumed Calories</h3>
+            <div class="value">{{ consumed_calories }}</div>
+            <div class="unit">kcal today</div>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Remaining Calories</h3>
+            <div class="value">{{ remaining_calories }}</div>
+            <div class="unit">kcal remaining</div>
+        </div>
+
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-card">
+
+        <div class="progress-header">
+            <h3>Daily Calorie Progress</h3>
+            <span>{{ progress }}%</span>
+        </div>
+
+        <div class="custom-progress">
+            <div class="progress-fill"
+                 style="width: {{ progress }}%;">
+            </div>
+        </div>
+
+        <p class="progress-text">
+            {{ consumed_calories }} / {{ required_calories }} kcal
+        </p>
+
+    </div>
+
+    <!-- Guideline -->
+    <div class="guideline">
+        <h3>💡 Guideline</h3>
+        <p>{{ guideline }}</p>
+    </div>
+
+    <!-- Today's Food -->
+    <div class="calorie-list">
+
+        <div class="section-header">
+            <h2>🍽️ Today's Food</h2>
+
+            <a class="btn btn-primary"
+               href="{% url 'add_calorie' %}">
+                + Add Food
+            </a>
+        </div>
+
+        {% if calorie_items %}
+
+        <table class="food-table">
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Calories</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in calorie_items %}
+                <tr>
+
+                    <td>
+                        <strong>{{ item.item_name }}</strong>
+                    </td>
+
+                    <td class="calorie-value">
+                        {{ item.calorie_consumed }} kcal
+                    </td>
+
+                    <td>
+                        <a class="delete-btn"
+                           href="{% url 'delete_calorie' item.id %}"
+                           onclick="return confirm('Are you sure you want to delete this food item?');">
+                            Delete
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <div class="empty-food">
+            <p>🍽️ No calorie entries have been added today.</p>
+
+            <a class="btn btn-primary"
+               href="{% url 'add_calorie' %}">
+                + Add Food / Calorie
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-card">
+
+        <h2>👤 Your Profile</h2>
+
+        <div class="profile-grid">
+
+            <div>
+                <span>Name</span>
+                <strong>{{ profile.name }}</strong>
+            </div>
+
+            <div>
+                <span>Age</span>
+                <strong>{{ profile.age }}</strong>
+            </div>
+
+            <div>
+                <span>Gender</span>
+                <strong>{{ profile.gender }}</strong>
+            </div>
+
+            <div>
+                <span>Height</span>
+                <strong>{{ profile.height }} cm</strong>
+            </div>
+
+            <div>
+                <span>Weight</span>
+                <strong>{{ profile.weight }} kg</strong>
+            </div>
+
+        </div>
+
+        <a class="btn btn-primary"
+           href="{% url 'profile_view' %}">
+            Update Profile
+        </a>
+
+    </div>
+
+    {% else %}
+
+    <!-- No Profile -->
+    <div class="profile-card text-center">
+
+        <h2>⚠️ Profile Not Found</h2>
+
+        <p>Please create your profile first.</p>
+
+        <a class="btn btn-primary"
+           href="{% url 'profile_view' %}">
+            Create Profile
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
