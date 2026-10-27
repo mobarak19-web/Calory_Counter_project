@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -9,10 +10,49 @@
 
         {{ user_form.as_p }}
         {{ pro_form.as_p }}
+
+        <!-- Show Password Option -->
+        <div class="form-check mb-3">
+            <input
+                type="checkbox"
+                class="form-check-input"
+                id="showPasswords"
+                onclick="togglePasswords()"
+            >
+            <label class="form-check-label" for="showPasswords">
+                Show Passwords
+            </label>
+        </div>
+
         <p>
-            <button type="submit" class="btn btn-primary mt-3">Register</button>
-            <a class="btn btn-primary mt-3" href="{% url 'user_login' %}">Already have an Account?</a>
+            <button type="submit" class="btn btn-primary mt-3">
+                Register
+            </button>
+
+            <a class="btn btn-primary mt-3" href="{% url 'user_login' %}">
+                Already have an Account?
+            </a>
         </p>
     </form>
 </div>
+
+<!-- JavaScript -->
+<script>
+    function togglePasswords() {
+        const password1 = document.getElementById("id_password1");
+        const password2 = document.getElementById("id_password2");
+
+        const type = document.getElementById("showPasswords").checked
+            ? "text"
+            : "password";
+
+        if (password1) {
+            password1.type = type;
+        }
+
+        if (password2) {
+            password2.type = type;
+        }
+    }
+</script>
 {% endblock %}

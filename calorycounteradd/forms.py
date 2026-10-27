@@ -110,7 +110,7 @@ class ConsumedCalorieForm(forms.ModelForm):
     calorie_consumed = forms.FloatField(label="", widget=forms.NumberInput(
         attrs={
             'class' : 'form-control',
-            'placeholder' : 'Input Item Name'
+            'placeholder' : 'Input your calories'
         }
     ))
     class Meta:
